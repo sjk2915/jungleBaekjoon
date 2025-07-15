@@ -7,6 +7,20 @@ nums = list(map(int, sys.stdin.readline().split()))
 def permutation(pool):
     result = []
     in_used = set()
+    
+    #재귀로 구현 // 메모리 효율 안좋음
+    def recursion(current_permutation, in_used):
+        if len(current_permutation) == len(pool):
+            result.append(list(current_permutation))
+            return
+        
+        for i in range(len(pool)):
+            if i in in_used:
+                continue
+
+            recursion(current_permutation + [pool[i]], in_used | {i})
+
+    #백트래킹으로 구현
     def backtrack(current_permutation):
         if len(current_permutation) == len(pool):
             result.append(list(current_permutation))

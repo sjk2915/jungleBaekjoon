@@ -10,8 +10,19 @@ dwarfs = [int(sys.stdin.readline()) for _ in range(n)]
 
 def combinations(pool, r):
     result = []
+
+    #재귀로 구현 // 메모리 효율 안좋음
+    def recursion(current_combination, start_index):
+        # 기저 사례: r개 요소를 모두 선택한 경우
+        if len(current_combination) == r:
+            result.append(list(current_combination))
+            return
+
+        # 재귀 단계: start_index부터 끝까지 탐색
+        for i in range(start_index, n):
+            recursion(current_combination + [pool[i]], i + 1)
     
-    # 백트래킹(재귀) 함수 정의
+    # 백트래킹으로 구현
     # current_combination: 현재까지 선택된 요소들
     # start_index: 다음 요소를 탐색할 시작 인덱스
     def backtrack(current_combination, start_index):
