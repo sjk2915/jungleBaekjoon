@@ -6,9 +6,9 @@ nums = list(map(int, sys.stdin.readline().split()))
 
 def permutation(pool):
     result = []
-    in_used = set()
+    in_used = []
     
-    #재귀로 구현 // 메모리 효율 안좋음
+    # 단순 재귀로 구현 // 메모리 효율 안좋음
     def recursion(current_permutation, in_used):
         if len(current_permutation) == len(pool):
             result.append(list(current_permutation))
@@ -18,7 +18,7 @@ def permutation(pool):
             if i in in_used:
                 continue
 
-            recursion(current_permutation + [pool[i]], in_used | {i})
+            recursion(current_permutation + [pool[i]], in_used + [i])
 
     #백트래킹으로 구현
     def backtrack(current_permutation):
@@ -30,14 +30,14 @@ def permutation(pool):
             if i in in_used:
                 continue
             current_permutation.append(pool[i])
-            in_used.add(i)
+            in_used.append(i)
             
             backtrack(current_permutation)
             
             current_permutation.pop()
             in_used.remove(i)
 
-    backtrack([])
+    recursion([], in_used)
     return result
 
 #파이썬 내장함수
