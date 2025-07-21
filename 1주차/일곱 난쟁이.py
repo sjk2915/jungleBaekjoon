@@ -23,8 +23,6 @@ def combinations(pool, r):
             recursion(current_combination + [pool[i]], i + 1)
     
     # 백트래킹으로 구현
-    # current_combination: 현재까지 선택된 요소들
-    # start_index: 다음 요소를 탐색할 시작 인덱스
     def backtrack(current_combination, start_index):
         # 기저 사례: r개 요소를 모두 선택한 경우
         if len(current_combination) == r:
@@ -33,13 +31,8 @@ def combinations(pool, r):
 
         # 재귀 단계: start_index부터 끝까지 탐색
         for i in range(start_index, n):
-            # i번째 요소를 선택합니다.
             current_combination.append(pool[i])
-            
-            # 다음 요소를 선택하기 위해 재귀 호출
-            # i + 1을 시작 인덱스로 사용하여 중복 선택을 방지하고 순서를 유지
             backtrack(current_combination, i + 1)
-            
             # 백트래킹: 현재 조합에서 마지막에 추가한 요소를 제거
             current_combination.pop()
 

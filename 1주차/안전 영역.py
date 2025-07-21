@@ -1,7 +1,10 @@
 import sys
 sys.setrecursionlimit(10**6)
 
-def dfs(x, y, N, area):
+N = int(sys.stdin.readline())
+area = [list(map(int, sys.stdin.readline().split())) for _ in range(N)]
+
+def dfs(x, y, area):
     dx = [0, 0, 1, -1]
     dy = [1, -1, 0, 0]
 
@@ -13,13 +16,26 @@ def dfs(x, y, N, area):
 
         if 0 <= nx < N and 0 <= ny < N:
             if area[nx][ny] >= 1:
-                dfs(nx, ny, N, area)
+                dfs(nx, ny, area)
 
-n = int(sys.stdin.readline())
-area = [list(map(int, sys.stdin.readline().split())) for _ in range(n)]
+def dfs_using_stack(x, y, area):
+    dx = [0, 0, 1, -1]
+    dy = [1, -1, 0, 0]
+
+    stack = []
+    stack.append([x, y])
+    while stack:
+        cx, cy = stack.pop()
+        area[cx][cy] = 0
+        for i in range(4):
+            nx = cx + dx[i]
+            ny = cy + dy[i]
+
+            if 0 <= nx < N and 0 <= ny < N:
+                if area[nx][ny] >= 1:
+                    stack.append([nx, ny])
 
 max_height = max(max(row) for row in area)
-
 safe_areas = []
 for i in range(1, max_height):
     safe_area = []
@@ -42,11 +58,11 @@ for i in range(1, max_height):
 max_safe = 1
 for safe_area in safe_areas:
     now_safe = 0
-    for i in range(n):
-        for j in range(n):
+    for i in range(N):
+        for j in range(N):
             if safe_area[i][j] >= 1:
                 now_safe += 1
-                dfs(i, j, n, safe_area)
+                dfs_using_stack(i, j, safe_area)
 
     max_safe = max(max_safe, now_safe)
 

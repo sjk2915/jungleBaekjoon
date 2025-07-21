@@ -16,3 +16,14 @@ for _ in range(m):
 for case in cases:
     answer = prefix_sum[case[1]] - prefix_sum[case[0] - 1]
     print(answer)
+
+def binary_search_recursion(arr, target, start, end):
+    mid = (start + end) // 2
+    if 0 <= start and end <= len(arr)-1:
+        if arr[mid] == target:
+            return arr[mid]
+        else:
+            binary_search_recursion(arr, target, mid+1, mid-1)
+    return -1
+
+my_list = []
