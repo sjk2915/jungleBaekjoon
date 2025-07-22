@@ -39,7 +39,7 @@ def solve_using_bisect():
     n_nums.sort()
     for m_num in m_nums:
         idx = bisect.bisect_left(n_nums, m_num)
-        if idx < N and n_nums[idx] == m_num:
+        if 0 <= idx < N and n_nums[idx] == m_num:
             print(1)
         else:
             print(0)
