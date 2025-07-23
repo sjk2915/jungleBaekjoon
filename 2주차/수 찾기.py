@@ -15,7 +15,7 @@ def solve_using_set():
             print(0)
 
 def solve_using_binary():
-    def _binary_search(list = list, num = int):
+    def _binary_search(list = list, num = int) -> bool:
         low = 0
         high = len(list) - 1
         while low <= high:
