@@ -31,8 +31,7 @@ for i in range(GAME_TIME):
     head = (y, x)
     snake.append(head)
     # 만약 벽이나 자기자신의 몸과 부딪히면 게임이 끝난다
-    if (1 > y or y > N
-        or 1 > x or x > N
+    if (not (1 <= y <= N and 1 <= x <= N)
         or snake.count(head) > 1):
         break
     # 만약 이동한 칸에 사과가 있다면, 그 칸에 있던 사과가 없어지고 꼬리는 움직이지 않는다.
