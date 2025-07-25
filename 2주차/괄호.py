@@ -15,7 +15,7 @@ for case in cases:
         elif char == ')':
             if my_stack:
                 my_stack.pop()
-            # 괄호가 안열렸는데 닫힌 경우
+            # 닫는데 연적이 없는 경우
             else:
                 is_VPS = False
                 break
