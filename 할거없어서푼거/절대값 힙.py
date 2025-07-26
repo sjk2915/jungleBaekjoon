@@ -13,7 +13,7 @@ class AbsHeap():
 
     def pop(self):
         if not self.heap:
-            raise IndexError("Heap is Empty")
+            raise IndexError
         if len(self.heap) == 1:
             return self.heap.pop()
         
@@ -28,29 +28,29 @@ class AbsHeap():
     def _get_parent_index(self, i):
         return (i - 1) // 2
 
-    def _get_left_child_index(self, i):
+    def _get_left_index(self, i):
         return 2 * i + 1
 
-    def _get_right_child_index(self, i):
+    def _get_right_index(self, i):
         return 2 * i + 2
 
     def _has_parent(self, i):
         return self._get_parent_index(i) >= 0
 
-    def _has_left_child(self, i):
-        return self._get_left_child_index(i) < len(self.heap)
+    def _has_left(self, i):
+        return self._get_left_index(i) < len(self.heap)
 
-    def _has_right_child(self, i):
-        return self._get_right_child_index(i) < len(self.heap)
+    def _has_right(self, i):
+        return self._get_right_index(i) < len(self.heap)
 
     def _get_parent(self, i):
         return self.heap[self._get_parent_index(i)]
 
-    def _get_left_child(self, i):
-        return self.heap[self._get_left_child_index(i)]
+    def _get_left(self, i):
+        return self.heap[self._get_left_index(i)]
 
-    def _get_right_child(self, i):
-        return self.heap[self._get_right_child_index(i)]
+    def _get_right(self, i):
+        return self.heap[self._get_right_index(i)]
     
     def _swap(self, i, j):
         self.heap[i], self.heap[j] = self.heap[j], self.heap[i]
@@ -76,15 +76,15 @@ class AbsHeap():
     def _heapify_down(self):
         current_index = 0
 
-        while self._has_left_child(current_index):
-            smaller_child_index = self._get_left_child_index(current_index)
-            if self._has_right_child(current_index):
-                if abs(self._get_right_child(current_index)) < abs(self._get_left_child(current_index)):
-                    smaller_child_index = self._get_right_child_index(current_index)
+        while self._has_left(current_index):
+            smaller_child_index = self._get_left_index(current_index)
+            if self._has_right(current_index):
+                if abs(self._get_right(current_index)) < abs(self._get_left(current_index)):
+                    smaller_child_index = self._get_right_index(current_index)
                 # 절대값이 같으면 작은 원소를 위로
-                elif abs(self._get_right_child(current_index)) == abs(self._get_left_child(current_index)):
-                    if self._get_right_child(current_index) < self._get_left_child(current_index):
-                        smaller_child_index = self._get_right_child_index(current_index)
+                elif abs(self._get_right(current_index)) == abs(self._get_left(current_index)):
+                    if self._get_right(current_index) < self._get_left(current_index):
+                        smaller_child_index = self._get_right_index(current_index)
 
             if abs(self.heap[current_index]) < abs(self.heap[smaller_child_index]):
                 break

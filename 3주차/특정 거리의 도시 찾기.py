@@ -7,6 +7,7 @@ for _ in range(M):
     u, v = list(map(int, sys.stdin.readline().split()))
     graph[u].append(v)
 
+city_at_K = []
 def bfs(start):
     visited = [False] * (N+1)
     queue = deque()
@@ -15,8 +16,17 @@ def bfs(start):
     queue.append((start, 0))
     while queue:
         cur, dist = queue.popleft()
-        for next in graph(cur):
-            visited[next] = True
-            queue.append((next, dist + 1))
+        if dist == K:
+            city_at_K.append(cur)
+        for next in graph[cur]:
+            if not visited[next]:
+                visited[next] = True
+                queue.append((next, dist + 1))
 
-print(bfs())
+bfs(X)
+city_at_K.sort()
+if city_at_K:
+    for item in city_at_K:
+        print(item)
+else:
+    print(-1)
