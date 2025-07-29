@@ -33,17 +33,6 @@ def solve_using_Kahn():
     return sorting_result
 
 def solve_using_dfs():
-    stack = []
-    visited = [False] * (N+1)
-    # 4. 모든 노드를 방문할 때까지 2~3을 반복한다.
-    for i in range(1, N+1):
-        # 1. 진입 차수가 0인 임의의 노드하나를 고른다.
-        # 3. 만약 더이상 갈 수 있는 곳이 없다면 다시 진입 차수가 0인 임의의 노드를 골라 2로 돌아간다.
-        if not visited[i] and in_degree[i] == 0:
-            # 2-1. DFS를 수행하여 그래프를 탐색하면서
-            visited[i] = True
-            dfs(i)
-
     def dfs(node):
         for dest in graph[node]:
             if not visited[dest]:
@@ -51,7 +40,17 @@ def solve_using_dfs():
                 dfs(dest)
         # 2-2. 더 이상 방문할 자식 노드가 없는 노드들을 스택에 넣는다.
         stack.append(node)
-
+        
+    stack = []
+    visited = [False] * (N+1)
+    # 4. 모든 노드를 방문할 때까지 2~3을 반복한다.
+    for i in range(1, N+1):
+        # 1. 임의의 노드하나를 고른다.
+        # 3. 만약 더이상 갈 수 있는 곳이 없다면 다시 임의의 노드를 골라 2로 돌아간다.
+        if not visited[i]:
+            # 2-1. DFS를 수행하여 그래프를 탐색하면서
+            visited[i] = True
+            dfs(i)
     # 5. 모든 노드를 방문한 후에 스택에든 결과를 꺼낸 순서대로 정렬하면 정렬 결과가 된다.
     return list(reversed(stack))
 
