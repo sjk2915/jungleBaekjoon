@@ -31,7 +31,7 @@ class MinHeap():
 
     def _get_left_child_index(self, i):
         return 2 * i + 1
-
+    
     def _get_right_child_index(self, i):
         return 2 * i + 2
 

@@ -1,5 +1,6 @@
 import sys
-from collections import deque, defaultdict
+from collections import defaultdict
+import heapq
 
 V, E = list(map(int, sys.stdin.readline().split()))
 K = int(sys.stdin.readline().strip())
@@ -9,16 +10,17 @@ for _ in range(E):
     vertexs[u].append((v, w))
 
 min_dist_list = [float('inf')] * (V + 1)
-def bfs(start):
+def dijkstra(start):
     min_dist_list[start] = 0
-    queue = deque([(start, 0)])
+    queue = [(0, start)]
     while queue:
-        cur, dist = queue.popleft()
-        if cur in vertexs:
-            for v, w in vertexs[cur]:
-                if min_dist_list[v] > dist + w:
-                    min_dist_list[v] = dist + w
-                    queue.append((v, dist + w))
+        total_dist, cur = heapq.heappop(queue)
+        if total_dist >= min_dist_list[cur]: continue
+        for next, dist in vertexs[cur]:
+            if min_dist_list[next] > total_dist + dist:
+                min_dist_list[next] = total_dist + dist
+                heapq.heappush(queue, (total_dist + dist, next))
 
-bfs(K)
-print(min_dist_list)
+dijkstra(K)
+for answer in min_dist_list[1:]:
+    print(answer if answer != float('inf') else 'INF')
