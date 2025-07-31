@@ -28,28 +28,16 @@ def topological_sort():
 
     return list(reversed(stack))
 
-class Parts:
-    def __init__(self):
-        self.materials = defaultdict(int)
-
-    def add_material(self, material_id, count: int = 1):
-        self.materials[material_id] += count
-
-    def add_parts(self, parts: 'Parts', req_count: int = 1):
-        for material_id, count in parts.get_materials():
-            self.materials[material_id] += count * req_count
-
-    def get_materials(self):
-        return self.materials.items()
-
-parts = [Parts() for _ in range(N+1)]
+materials = defaultdict(lambda: defaultdict(int))
 for node in range(1, N+1):
     if in_degree[node] == 0:
-        parts[node].add_material(node)
+        # 기본노드 재료는 자기자신
+        materials[node][node] += 1
 
 for node in topological_sort():
     for next_node, req_count in graph[node]:
-        parts[next_node].add_parts(parts[node], req_count)
+        for material, count in materials[node].items():
+                materials[next_node][material] += count * req_count
 
-for item in sorted(parts[N].get_materials()):
+for item in sorted(materials[N].items()):
     print(*item)
