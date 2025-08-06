@@ -45,11 +45,11 @@ def get_suffix_array(s):
 
 def get_lcp_array(s, sa):
     n = len(s)
-    # 1. 랭크(rank) 배열 구축
-    # rank[i]는 s[i:] 접미사가 접미사 배열에서 몇 번째에 있는지 저장
-    rank = [0] * n
+    # 1. 역 접미사 배열 구축
+    # inverse_sa[i]는 s[i:] 접미사가 접미사 배열에서 몇 번째에 있는지 저장
+    inverse_sa = [0] * n
     for i in range(n):
-        rank[sa[i]] = i
+        inverse_sa[sa[i]] = i
     
     lcp = [0] * n
     height = 0  # 이전 LCP 값을 저장하는 변수
@@ -58,11 +58,11 @@ def get_lcp_array(s, sa):
     for i in range(n):
         # i번째 인덱스에서 시작하는 접미사가 접미사 배열에서 첫 번째(가장 작은) 접미사인 경우
         # 이전 접미사가 없으므로 LCP는 0
-        if rank[i] == 0:
+        if inverse_sa[i] == 0:
             continue
             
-        # rank[i] - 1은 i번째 접미사의 바로 앞 접미사 인덱스
-        prev_rank = rank[i] - 1
+        # inverse_sa[i] - 1은 i번째 접미사의 바로 앞 접미사 인덱스
+        prev_rank = inverse_sa[i] - 1
         j = sa[prev_rank]
         
         # i번째 접미사와 j번째 접미사(i의 이전 접미사)의 LCP 계산
@@ -70,7 +70,7 @@ def get_lcp_array(s, sa):
         while i + height < n and j + height < n and s[i + height] == s[j + height]:
             height += 1
             
-        lcp[rank[i]] = height
+        lcp[inverse_sa[i]] = height
         
         # LCP가 1 이상이면 다음 인덱스에서는 최소한 height-1만큼은 LCP가 보장됨
         if height > 0:

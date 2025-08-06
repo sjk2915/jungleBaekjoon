@@ -1,5 +1,4 @@
 import sys
-from collections import Counter
 
 N, M = list(map(int, sys.stdin.readline().split()))
 schedule = list(map(int, sys.stdin.readline().split()))
